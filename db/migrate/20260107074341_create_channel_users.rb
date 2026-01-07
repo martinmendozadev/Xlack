@@ -1,0 +1,11 @@
+class CreateChannelUsers < ActiveRecord::Migration[8.0]
+  def change
+    create_table :channel_users do |t|
+      t.references :user, null: false, foreign_key: true
+      t.references :channel, null: false, foreign_key: true
+      t.datetime :last_read_at
+
+      t.timestamps
+    end
+  end
+end
