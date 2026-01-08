@@ -44,5 +44,6 @@ en:
   messages:
     create:
       failure: "Failed to send message."
-      reply_in_thread: "Reply in thread"
+    reply_in_thread: "Reply in thread"
     reply: "Reply"
+    reply_placeholder: "Reply to this message..."

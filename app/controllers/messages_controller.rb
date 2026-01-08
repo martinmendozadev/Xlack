@@ -7,14 +7,20 @@ class MessagesController < ApplicationController
     if @message.save
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.replace("new_message_form", partial: "messages/form", locals: { channel: @channel })
-          ]
+          if @message.parent_id
+            render turbo_stream: turbo_stream.replace("thread_reply_form",
+                                                      partial: "messages/form_thread",
+                                                      locals: { channel: @channel, parent: @message.parent })
+          else
+            render turbo_stream: turbo_stream.replace("new_message_form",
+                                                      partial: "messages/form",
+                                                      locals: { channel: @channel })
+          end
         end
         format.html { redirect_to channel_path(@channel) }
       end
     else
-      render turbo_stream: turbo_stream.replace("new_message_form", partial: "messages/form", locals: { channel: @channel })
+      redirect_to channel_path(@channel), alert: t("messages.create_failure")
     end
   end
 
