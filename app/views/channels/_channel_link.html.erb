@@ -1,18 +1,22 @@
 <%
-  # Definimos si está activo.
-  # Si viene del broadcast (tiempo real), 'active' será false por defecto.
-  # Si viene del render normal, calculamos la lógica.
   is_active = local_assigns[:active]
-
-  base_classes = "group flex items-center px-4 py-2 text-sm font-medium rounded-md"
-  active_classes = is_active ? "bg-blue-700 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
 %>
 
-<%= link_to channel_path(channel), id: dom_id(channel), class: "#{base_classes} #{active_classes}" do %>
+<%= link_to channel_path(channel), id: dom_id(channel), class: channel_classes(channel, @active_channel) do %>
+
   <%= channel_icon(channel) %>
+
   <% if channel.is_private? %>
     <%= channel_display_name(channel) %>
   <% else %>
     <%= channel.name %>
   <% end %>
+
+  <%
+     membership = channel.channel_users.find_by(user: current_user)
+     if membership&.has_unread_messages? && channel != @active_channel
+  %>
+    <span class="ml-auto w-2 h-2 rounded-full bg-blue-500"></span>
+  <% end %>
+
 <% end %>

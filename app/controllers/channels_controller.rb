@@ -15,6 +15,9 @@ class ChannelsController < ApplicationController
     end
 
     if @active_channel
+      membership = @active_channel.channel_users.find_by(user: current_user)
+      membership&.update(last_read_at: Time.current)
+
       @messages = @active_channel.messages
                                  .where(parent_id: nil)
                                  .includes(:user)
