@@ -13,14 +13,22 @@
 
     <p class="text-gray-800 mt-1"><%= message.content %></p>
 
-    <% reply_count = message.replies.count %>
-    <% if reply_count > 0 %>
-      <div class="mt-2 flex items-center group cursor-pointer">
-         <div class="flex items-center space-x-2 rounded px-2 py-1 bg-gray-50 border border-gray-200 hover:bg-white hover:border-gray-300">
-          <span class="text-xs font-bold text-blue-600"><%= reply_count %> <%= t(".replies") %></span>
-           <span class="text-xs text-gray-400 text-xs"><%= t(".view_thread") %></span>
-         </div>
-      </div>
-    <% end %>
+   <% reply_count = message.replies.count %>
+
+    <div class="mt-2 flex items-center group">
+       <%= link_to channel_message_path(message.channel, message),
+           data: { turbo_frame: "thread_view" },
+           class: "flex items-center space-x-2 rounded px-2 py-1 bg-gray-50 border border-gray-200 hover:bg-white hover:border-gray-300 no-underline cursor-pointer" do %>
+
+         <% if reply_count > 0 %>
+            <span class="text-xs font-bold text-blue-600"><%= reply_count %> <%= t(".replies") %></span>
+            <span class="text-xs text-gray-400 text-xs ml-1"><%= t(".view_thread") %></span>
+         <% else %>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+            <span class="text-xs text-gray-500"><%= t(".reply_in_thread") %></span>
+         <% end %>
+
+       <% end %>
+    </div>
   </div>
 </div>

@@ -40,6 +40,9 @@ en:
     placeholder: "Send message to "
     title: "Channels"
     view_thread: "View Thread"
+    reply_in_thread: "Reply in thread"
   messages:
     create:
       failure: "Failed to send message."
+      reply_in_thread: "Reply in thread"
+    reply: "Reply"

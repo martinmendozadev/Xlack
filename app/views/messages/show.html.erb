@@ -1,0 +1,47 @@
+<turbo-frame id="thread_view" class="w-96 border-l border-gray-200 bg-gray-50 flex flex-col shadow-xl h-full">
+
+  <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white">
+    <h3 class="text-md font-bold text-gray-700">Hilo</h3>
+    <%= link_to channel_path(@channel), target: "_top", class: "text-gray-400 hover:text-gray-600" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <% end %>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-4 space-y-4">
+
+    <div class="bg-white p-3 rounded shadow-sm border border-gray-200">
+      <div class="flex items-baseline mb-1">
+        <span class="font-bold text-sm mr-2"><%= @parent_message.user.username %></span>
+        <span class="text-xs text-gray-500"><%= @parent_message.created_at.strftime("%I:%M %p") %></span>
+      </div>
+      <p class="text-gray-800 text-sm"><%= @parent_message.content %></p>
+    </div>
+
+    <div class="relative py-2">
+      <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div>
+      <div class="relative flex justify-center"><span class="px-2 bg-gray-50 text-xs text-gray-500">Respuestas</span></div>
+    </div>
+
+    <div id="thread_messages_<%= @parent_message.id %>" class="space-y-4">
+      <%= render partial: "messages/message", collection: @replies, as: :message %>
+    </div>
+  </div>
+
+  <div class="p-4 border-t border-gray-200 bg-white">
+    <%= form_with(model: [@channel, @new_reply],
+                  id: "thread_reply_form",
+                  class: "relative") do |f| %>
+
+      <%= f.hidden_field :parent_id %>
+
+      <%= f.text_area :content,
+          class: "w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none",
+          rows: 2,
+          placeholder: "Responder..." %>
+
+      <button type="submit" class="mt-2 w-full bg-blue-600 text-white py-1 px-3 rounded text-sm hover:bg-blue-700">
+        <%= t("messages.reply") %>
+      </button>
+    <% end %>
+  </div>
+</turbo-frame>

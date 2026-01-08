@@ -18,6 +18,15 @@ class MessagesController < ApplicationController
     end
   end
 
+  def show
+    @channel = Channel.find(params[:channel_id])
+    @parent_message = Message.find(params[:id])
+
+    @replies = @parent_message.replies.includes(:user).order(created_at: :asc)
+
+    @new_reply = Message.new(parent_id: @parent_message.id)
+  end
+
   private
 
   def message_params
