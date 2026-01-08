@@ -6,4 +6,11 @@ class Message < ApplicationRecord
   has_many :replies, class_name: "Message", foreign_key: "parent_id", dependent: :destroy
 
   validates :content, presence: true
+
+  after_create_commit do
+    broadcast_append_to channel,
+                        target: "messages",
+                        partial: "messages/message",
+                        locals: { message: self }
+  end
 end

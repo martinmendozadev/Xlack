@@ -8,8 +8,6 @@ class MessagesController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.append("messages", partial: "messages/message", locals: { message: @message }),
-
             turbo_stream.replace("new_message_form", partial: "messages/form", locals: { channel: @channel })
           ]
         end
