@@ -23,10 +23,16 @@
   </head>
 
   <body>
-    <main class="container ">
-      <p class="notice text-green-600"><%= notice %></p>
-      <p class="alert text-red-600"><%= alert %></p>
-      <%= yield %>
-    </main>
+    <main class="w-full h-full">
+
+      <% if notice %>
+        <p class="notice text-green-600 px-4 py-2"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p class="alert text-red-600 px-4 py-2"><%= alert %></p>
+      <% end %>
+
+    <%= yield %>
+  </main>
   </body>
 </html>
