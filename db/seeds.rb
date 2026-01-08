@@ -76,6 +76,18 @@ Message.create!(
   parent: sprint_msg
 )
 
+puts "DM between Alex and Sarah..."
+dm_channel = Channel.create!(name: "dm-alex-sarah", is_private: true)
+
+ChannelUser.create!(user: dev, channel: dm_channel)
+ChannelUser.create!(user: designer, channel: dm_channel)
+
+Message.create!(
+  content: "Hi Sarah, can you share the latest design mockups for the project?",
+  user: dev,
+  channel: dm_channel
+)
+
 puts "Seeds planted successfully!"
 puts "-" * 50
 puts "You can log in with: dev@technova.com / password123"

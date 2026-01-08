@@ -1,33 +1,31 @@
 class ChannelsController < ApplicationController
   def index
-    first_channel = current_user.channels.first
+    @public_channels = current_user.channels.where(is_private: false)
+    @direct_messages = current_user.channels.where(is_private: true)
 
-    if first_channel
-      redirect_to channel_path(first_channel)
+    if params[:id]
+      @active_channel = Channel.find(params[:id])
     else
-      render plain: t('channels.no_active_channel')
+      @active_channel = @public_channels.first || @direct_messages.first
+    end
+
+    if @active_channel && !@active_channel.users.include?(current_user)
+      redirect_to root_path, alert: "No tienes acceso."
+      return
+    end
+
+    if @active_channel
+      @messages = @active_channel.messages
+                                 .where(parent_id: nil)
+                                 .includes(:user)
+                                 .order(created_at: :asc)
+    else
+      @messages = []
     end
   end
 
   def show
-    @channels = current_user.channels
-    begin
-      @active_channel = Channel.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to root_path, alert: t('channels.channel_not_found')
-      return
-    end
-
-    unless @channels.include?(@active_channel)
-      redirect_to root_path, alert: t('channels.no_access_to_channel')
-      return
-    end
-
-    @messages = @active_channel.messages
-                               .where(parent_id: nil)
-                               .includes(:user)
-                               .order(created_at: :asc)
-
+    index
     render :index
   end
 end
