@@ -3,22 +3,27 @@
   <div class="flex-shrink-0 w-64 bg-gray-900 flex flex-col">
 
     <div class="px-4 h-12 flex items-center bg-gray-800 text-white font-bold border-b border-gray-700">
-      TechNova Solutions
+      <%= t("common.app_name") %>
     </div>
 
     <div class="flex-1 overflow-y-auto py-4">
       <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-        Canales
+        <%= t("channels.title") %>
       </h3>
 
-      <nav class="space-y-1">
+     <nav class="space-y-1">
         <% @channels.each do |channel| %>
-          <% active_class = (channel == @active_channel) ? "bg-blue-700 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" %>
+          <%
+            is_active = (@active_channel && channel.id == @active_channel.id)
 
-          <a href="#" class="<%= active_class %> group flex items-center px-4 py-2 text-sm font-medium">
-            <span class="mr-2 text-gray-500">#</span>
+            base_classes = "group flex items-center px-4 py-2 text-sm font-medium rounded-md"
+            active_classes = is_active ? "bg-blue-700 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
+          %>
+
+          <%= link_to channel_path(channel), class: "#{base_classes} #{active_classes}" do %>
+            <span class="mr-2 text-gray-500 <%= is_active ? 'text-blue-300' : '' %>">#</span>
             <%= channel.name %>
-          </a>
+          <% end %>
         <% end %>
       </nav>
     </div>
@@ -32,9 +37,7 @@
           <p class="text-sm font-medium text-white">
             <%= current_user.username %>
           </p>
-          <p class="text-xs text-gray-400 hover:text-white cursor-pointer">
-            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, class: "text-xs hover:underline" %>
-          </p>
+          <%= button_to t("common.logout"), destroy_user_session_path, method: :delete, class: "text-xs hover:underline text-red-500 hover:text-white cursor-pointer" %>
         </div>
       </div>
     </div>
@@ -45,7 +48,7 @@
     <div class="border-b border-gray-200 px-6 py-3 flex justify-between items-center bg-white shadow-sm">
       <div class="flex items-center">
         <h2 class="text-lg font-bold text-gray-800">
-          # <%= @active_channel&.name || "Sin canal" %>
+          # <%= @active_channel&.name || t("channels.no_active_channel") %>
         </h2>
       </div>
     </div>
@@ -73,8 +76,8 @@
               <% if reply_count > 0 %>
                 <div class="mt-2 flex items-center group cursor-pointer">
                    <div class="flex items-center space-x-2 rounded px-2 py-1 bg-gray-50 border border-gray-200 hover:bg-white hover:border-gray-300">
-                     <span class="text-xs font-bold text-blue-600"><%= reply_count %> respuestas</span>
-                     <span class="text-xs text-gray-400 text-xs">Ver hilo</span>
+                     <span class="text-xs font-bold text-blue-600"><%= reply_count %> <%= t(".replies") %></span>
+                     <span class="text-xs text-gray-400 text-xs"><%= t(".view_thread") %></span>
                    </div>
                 </div>
               <% end %>
@@ -84,7 +87,7 @@
         <% end %>
       <% else %>
         <div class="text-center text-gray-400 mt-10">
-          <p>No hay mensajes aún en este canal.</p>
+          <p><%= t("channels.no_messages") %></p>
         </div>
       <% end %>
     </div>
@@ -93,7 +96,7 @@
       <form class="relative">
         <input type="text"
                class="w-full border border-gray-300 rounded-lg p-3 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm"
-               placeholder="Enviar mensaje a #<%= @active_channel&.name %>...">
+               placeholder="<%= t("channels.placeholder") %> #<%= @active_channel&.name %>...">
 
         <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
