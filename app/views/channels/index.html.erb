@@ -55,36 +55,7 @@
 
     <div class="flex-1 overflow-y-auto p-6 space-y-6" id="messages">
       <% if @messages.any? %>
-        <% @messages.each do |message| %>
-
-          <div class="flex items-start">
-            <div class="flex-shrink-0">
-              <div class="h-10 w-10 rounded bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
-                <%= message.user.username[0].upcase %>
-              </div>
-            </div>
-
-            <div class="ml-4">
-              <div class="flex items-baseline">
-                <span class="font-bold text-gray-900 mr-2"><%= message.user.username %></span>
-                <span class="text-xs text-gray-500"><%= message.created_at.strftime("%I:%M %p") %></span>
-              </div>
-
-              <p class="text-gray-800 mt-1"><%= message.content %></p>
-
-              <% reply_count = message.replies.count %>
-              <% if reply_count > 0 %>
-                <div class="mt-2 flex items-center group cursor-pointer">
-                   <div class="flex items-center space-x-2 rounded px-2 py-1 bg-gray-50 border border-gray-200 hover:bg-white hover:border-gray-300">
-                     <span class="text-xs font-bold text-blue-600"><%= reply_count %> <%= t(".replies") %></span>
-                     <span class="text-xs text-gray-400 text-xs"><%= t(".view_thread") %></span>
-                   </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-
-        <% end %>
+      <%= render @messages %>
       <% else %>
         <div class="text-center text-gray-400 mt-10">
           <p><%= t("channels.no_messages") %></p>
@@ -93,17 +64,7 @@
     </div>
 
     <div class="p-4 border-t border-gray-200 bg-gray-50">
-      <form class="relative">
-        <input type="text"
-               class="w-full border border-gray-300 rounded-lg p-3 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm"
-               placeholder="<%= t("channels.placeholder") %> #<%= @active_channel&.name %>...">
-
-        <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-blue-600">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-          </svg>
-        </button>
-      </form>
+      <%= render partial: "messages/form", locals: { channel: @active_channel } %>
     </div>
 
   </div>

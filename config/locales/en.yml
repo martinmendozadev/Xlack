@@ -40,3 +40,6 @@ en:
     placeholder: "Send message to "
     title: "Channels"
     view_thread: "View Thread"
+  messages:
+    create:
+      failure: "Failed to send message."
