@@ -44,6 +44,11 @@ en:
     reply_in_thread: "Reply in thread"
     created_successfully: "Channel created successfully."
     direct_messages: "Direct Messages"
+  direct_messages:
+    new:
+      title: "New Direct Message"
+      select_user: "Select a user to start a direct message."
+    created_successfully: "Direct message started successfully."
   messages:
     create:
       failure: "Failed to send message."

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "direct_messages/new"
+  get "direct_messages/create"
   get "messages/index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -18,4 +20,7 @@ Rails.application.routes.draw do
   resources :channels, only: [ :show, :new, :create ] do
     resources :messages, only: [ :create, :show ]
   end
+
+  # Direct messaging routes
+  resources :direct_messages, only: [:new, :create]
 end

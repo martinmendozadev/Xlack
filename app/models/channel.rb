@@ -7,6 +7,14 @@ class Channel < ApplicationRecord
 
   after_create_commit :broadcast_channel_if_public
 
+  def self.find_or_create_dm(user_a, user_b)
+    dm_channel = user_a.channels.where(is_private: true).find do |channel|
+      channel.users.include?(user_b)
+    end
+
+    dm_channel ||= create_dm(user_a, user_b)
+  end
+
   private
 
   def broadcast_channel_if_public
@@ -16,5 +24,16 @@ class Channel < ApplicationRecord
                         target: "public_channels_list",
                         partial: "channels/channel_link",
                         locals: { channel: self, active: false }
+  end
+
+  def self.create_dm(user_a, user_b)
+    transaction do
+      channel = create!(name: "dm-#{[user_a.id, user_b.id].sort.join('-')}", is_private: true)
+
+      ChannelUser.create!(channel: channel, user: user_a)
+      ChannelUser.create!(channel: channel, user: user_b)
+
+      channel
+    end
   end
 end
