@@ -81,11 +81,11 @@
       </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-6 space-y-6" id="messages">
+   <div class="flex-1 overflow-y-auto p-6 space-y-6" id="messages">
       <% if @messages.any? %>
-      <%= render @messages %>
+        <%= render @messages %>
       <% else %>
-        <div class="text-center text-gray-400 mt-10">
+        <div id="no_messages_placeholder" class="text-center text-gray-400 mt-10">
           <p><%= t("channels.no_messages") %></p>
         </div>
       <% end %>

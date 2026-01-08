@@ -17,6 +17,9 @@ class Message < ApplicationRecord
                           target: "messages",
                           partial: "messages/message",
                           locals: { message: self }
+
+      broadcast_remove_to channel, target: "no_messages_placeholder"
+
     else
       broadcast_append_to parent,
                           target: "thread_messages_#{parent.id}",
