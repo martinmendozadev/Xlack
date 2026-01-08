@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   root "channels#index"
 
   # Chat application routes
-  resources :channels, only: [:show] do
-    resources :messages, only: [:create, :show]
+  resources :channels, only: [ :show, :new, :create ] do
+    resources :messages, only: [ :create, :show ]
   end
 end

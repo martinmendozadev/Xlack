@@ -1,0 +1,47 @@
+<turbo-frame id="modal">
+  <div class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden transform transition-all">
+
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+        <h3 class="text-lg font-medium text-gray-900">Crear nuevo canal</h3>
+        <%= link_to root_path, class: "text-gray-400 hover:text-gray-500" do %>
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <% end %>
+      </div>
+
+      <div class="px-6 py-4">
+        <%= form_with(model: @channel, data: { turbo_frame: "_top" }, class: "space-y-4") do |f| %>
+
+          <div>
+            <%= f.label :name, "Nombre del canal", class: "block text-sm font-medium text-gray-700" %>
+            <div class="mt-1 flex rounded-md shadow-sm">
+              <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                #
+              </span>
+              <%= f.text_field :name,
+                  class: "flex-1 block w-full rounded-none rounded-r-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border",
+                  placeholder: "marketing, dudas, memes...",
+                  autofocus: true %>
+            </div>
+            <% if @channel.errors[:name].any? %>
+              <p class="mt-1 text-sm text-red-600"><%= @channel.errors[:name].first %></p>
+            <% end %>
+          </div>
+
+          <p class="text-xs text-gray-500">
+            Los canales son el lugar donde se tienen las conversaciones sobre un tema específico.
+          </p>
+
+          <div class="pt-4 flex justify-end">
+             <%= link_to "Cancelar", root_path, class: "mr-3 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+
+             <%= f.submit "Crear Canal", class: "px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
+          </div>
+
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</turbo-frame>

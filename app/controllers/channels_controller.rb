@@ -10,7 +10,7 @@ class ChannelsController < ApplicationController
     end
 
     if @active_channel && !@active_channel.users.include?(current_user)
-      redirect_to root_path, alert: "No tienes acceso."
+      redirect_to root_path, alert: t("channels.access_denied")
       return
     end
 
@@ -27,5 +27,27 @@ class ChannelsController < ApplicationController
   def show
     index
     render :index
+  end
+  def new
+    @channel = Channel.new
+  end
+
+  def create
+    @channel = Channel.new(channel_params)
+    @channel.is_private = false
+
+    if @channel.save
+      ChannelUser.create(user: current_user, channel: @channel)
+
+      redirect_to channel_path(@channel), notice: t("channels.created_successfully")
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def channel_params
+    params.require(:channel).permit(:name)
   end
 end

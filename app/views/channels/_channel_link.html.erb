@@ -1,0 +1,18 @@
+<%
+  # Definimos si está activo.
+  # Si viene del broadcast (tiempo real), 'active' será false por defecto.
+  # Si viene del render normal, calculamos la lógica.
+  is_active = local_assigns[:active]
+
+  base_classes = "group flex items-center px-4 py-2 text-sm font-medium rounded-md"
+  active_classes = is_active ? "bg-blue-700 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
+%>
+
+<%= link_to channel_path(channel), id: dom_id(channel), class: "#{base_classes} #{active_classes}" do %>
+  <%= channel_icon(channel) %>
+  <% if channel.is_private? %>
+    <%= channel_display_name(channel) %>
+  <% else %>
+    <%= channel.name %>
+  <% end %>
+<% end %>
