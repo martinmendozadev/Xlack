@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "reactions/create"
   get "notifications/index"
   get "direct_messages/new"
   get "direct_messages/create"
@@ -19,7 +20,9 @@ Rails.application.routes.draw do
 
   # Chat application routes
   resources :channels, only: [ :show, :new, :create ] do
-    resources :messages, only: [ :create, :show ]
+    resources :messages, only: [ :create, :show ] do
+      post "reaction", to: "reactions#create"
+    end
   end
 
   # Direct messaging routes

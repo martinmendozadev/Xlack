@@ -14,4 +14,8 @@ module MessagesHelper
 
     simple_format(formatted_content, {}, sanitize: false)
   end
+
+  def grouped_reactions(message)
+    message.reactions.group(:emoji).count
+  end
 end
