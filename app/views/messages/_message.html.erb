@@ -11,7 +11,9 @@
       <span class="text-xs text-gray-500"><%= message.created_at.strftime("%I:%M %p") %></span>
     </div>
 
-    <p class="text-gray-800 mt-1"><%= message.content %></p>
+    <div class="text-gray-800 mt-1">
+      <%= format_message_content(message.content) %>
+    </div>
 
    <% reply_count = message.replies.count %>
 

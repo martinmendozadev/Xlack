@@ -15,7 +15,9 @@
         <span class="font-bold text-sm mr-2"><%= @parent_message.user.username %></span>
         <span class="text-xs text-gray-500"><%= @parent_message.created_at.strftime("%I:%M %p") %></span>
       </div>
-      <p class="text-gray-800 text-sm"><%= @parent_message.content %></p>
+      <div class="text-gray-800 mt-1">
+        <%= format_message_content(@parent_message.content) %>
+      </div>
     </div>
 
     <div class="relative py-2">

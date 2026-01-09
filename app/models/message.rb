@@ -4,10 +4,12 @@ class Message < ApplicationRecord
 
   belongs_to :parent, class_name: "Message", optional: true
   has_many :replies, class_name: "Message", foreign_key: "parent_id", dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   validates :content, presence: true
 
   after_create_commit :broadcast_message
+  after_create :notify_mentions
 
   private
 
@@ -30,6 +32,23 @@ class Message < ApplicationRecord
                            target: "message_#{parent.id}",
                            partial: "messages/message",
                            locals: { message: parent }
+    end
+  end
+
+  def notify_mentions
+    mentioned_names = content.scan(/@(\w+)/).flatten.uniq
+
+    mentioned_names.each do |name|
+      user = User.find_by(username: name)
+
+      if user && user != self.user && channel.users.include?(user)
+
+        Notification.create(
+          recipient: user,
+          actor: self.user,
+          message: self
+        )
+      end
     end
   end
 end
