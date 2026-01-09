@@ -23,16 +23,29 @@
   </head>
 
   <body>
-    <main class="w-full h-full">
+  <main class="w-full h-full flex overflow-hidden">
 
-      <% if notice %>
-        <p class="notice text-green-600 px-4 py-2"><%= notice %></p>
-      <% end %>
-      <% if alert %>
-        <p class="alert text-red-600 px-4 py-2"><%= alert %></p>
-      <% end %>
+    <% if user_signed_in? %>
+      <%= render "shared/sidebar" %>
+    <% end %>
 
-    <%= yield %>
+    <div class="flex-1 flex flex-col min-w-0 bg-white h-screen relative">
+
+      <div class="absolute top-4 right-4 z-50 space-y-2">
+        <% if notice %>
+           <p class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg animate-fade-in-down"><%= notice %></p>
+        <% end %>
+        <% if alert %>
+           <p class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg animate-fade-in-down"><%= alert %></p>
+        <% end %>
+      </div>
+
+      <%= yield %>
+
+    </div>
+
+    <turbo-frame id="modal"></turbo-frame>
+
   </main>
   </body>
 </html>

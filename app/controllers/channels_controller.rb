@@ -1,8 +1,5 @@
 class ChannelsController < ApplicationController
   def index
-    @public_channels = current_user.channels.where(is_private: false)
-    @direct_messages = current_user.channels.where(is_private: true)
-
     if params[:id]
       @active_channel = Channel.find(params[:id])
     else
