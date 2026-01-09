@@ -28,7 +28,7 @@ class Channel < ApplicationRecord
 
   def self.create_dm(user_a, user_b)
     transaction do
-      channel = create!(name: "dm-#{[user_a.id, user_b.id].sort.join('-')}", is_private: true)
+      channel = create!(name: "dm-#{[ user_a.id, user_b.id ].sort.join('-')}", is_private: true)
 
       ChannelUser.create!(channel: channel, user: user_a)
       ChannelUser.create!(channel: channel, user: user_b)

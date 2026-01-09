@@ -34,15 +34,15 @@ development = Channel.create!(name: 'development', is_private: false)
 design = Channel.create!(name: 'design', is_private: false)
 
 puts "Subscribing users to channels..."
-[dev, designer, manager].each do |user|
+[ dev, designer, manager ].each do |user|
   ChannelUser.create!(user: user, channel: general)
 end
 
-[dev, manager].each do |user|
+[ dev, manager ].each do |user|
   ChannelUser.create!(user: user, channel: development)
 end
 
-[designer, manager].each do |user|
+[ designer, manager ].each do |user|
   ChannelUser.create!(user: user, channel: design)
 end
 
