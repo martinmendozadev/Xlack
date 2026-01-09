@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "notifications/index"
   get "direct_messages/new"
   get "direct_messages/create"
   get "messages/index"
@@ -22,5 +23,8 @@ Rails.application.routes.draw do
   end
 
   # Direct messaging routes
-  resources :direct_messages, only: [:new, :create]
+  resources :direct_messages, only: [ :new, :create ]
+
+  # Notification routes
+  resources :notifications, only: [ :index ]
 end

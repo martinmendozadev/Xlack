@@ -1,0 +1,54 @@
+<div class="flex h-screen bg-white">
+  <div class="w-full max-w-3xl mx-auto py-8 px-4">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-2xl font-bold text-gray-900"><%= t("notifications.activity") %></h1>
+      <%= link_to root_path, class: "text-blue-600 hover:text-blue-800" do %>
+        &larr; <%= t("notifications.back_to_chat") %>
+      <% end %>
+    </div>
+
+    <% if @notifications.any? %>
+      <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <ul class="divide-y divide-gray-200">
+          <% @notifications.each do |notification| %>
+            <li class="<%= notification.read_at ? 'bg-white' : 'bg-blue-50' %> hover:bg-gray-50 transition">
+              <%= link_to channel_message_path(notification.message.channel, notification.message), class: "block px-4 py-4 sm:px-6 group" do %>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10 rounded bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                      <%= notification.actor.username[0].upcase %>
+                    </div>
+
+                    <div class="ml-4">
+                      <p class="text-sm font-medium text-gray-900">
+                        <span class="font-bold">@<%= notification.actor.username %></span> <%= t("notifications.mentioned_you_in") %>
+                        <span class="text-gray-500">#<%= notification.message.channel.name %></span>
+                      </p>
+                      <p class="mt-1 text-sm text-gray-500 truncate w-96">
+                        "<%= notification.message.content %>"
+                      </p>
+                    </div>
+                  </div>
+                  <div class="ml-2 flex-shrink-0 flex flex-col items-end">
+                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <%= notification.read_at ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800' %>">
+                      <%= notification.read_at ? t("notifications.read") : t("notifications.new") %>
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">
+                      <%= time_ago_in_words(notification.created_at) %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <div class="text-center py-12 bg-gray-50 rounded-lg">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900"><%= t("notifications.no_notifications") %></h3>
+        <p class="mt-1 text-sm text-gray-500"><%= t("notifications.we_notify_when_notification_exist") %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

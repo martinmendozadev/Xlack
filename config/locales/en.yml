@@ -49,6 +49,15 @@ en:
       title: "New Direct Message"
       select_user: "Select a user to start a direct message."
     created_successfully: "Direct message started successfully."
+  notifications:
+    activity: "Activity"
+    no_notifications: "No notifications."
+    mark_all_as_read: "Mark all as read"
+    back_to_chat: "Back to Chat"
+    mentioned_you_in: "mentioned you in"
+    read: "Read"
+    new: "New"
+    we_notify_when_notification_exist: "We'll notify you when someone mentions you."
   messages:
     create:
       failure: "Failed to send message."
