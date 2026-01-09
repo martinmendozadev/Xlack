@@ -40,6 +40,8 @@ en:
     replies: "replies"
     placeholder: "Send message to "
     title: "Channels"
+    today: "Today"
+    yesterday: "Yesterday"
     view_thread: "View Thread"
     reply_in_thread: "Reply in thread"
     created_successfully: "Channel created successfully."

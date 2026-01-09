@@ -21,7 +21,31 @@
      id="messages"
      data-controller="scroll">
       <% if @messages.any? %>
-        <%= render @messages %>
+        <% current_date = nil %>
+
+      <% @messages.each do |message| %>
+        <% message_date = message.created_at.to_date %>
+
+        <% if current_date != message_date %>
+          <div class="relative py-4 flex items-center justify-center">
+             <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-200"></div>
+             </div>
+             <span class="relative bg-white px-4 text-xs text-gray-500 border border-gray-200 rounded-full">
+               <% if message_date == Date.today %>
+                 <%= t("channels.today") %>
+               <% elsif message_date == Date.yesterday %>
+                 <%= t("channels.yesterday") %>
+               <% else %>
+                 <%= message_date.strftime("%d %b, %Y") %>
+               <% end %>
+             </span>
+          </div>
+          <% current_date = message_date %>
+        <% end %>
+
+        <%= render message %>
+      <% end %>
       <% else %>
         <div id="no_messages_placeholder" class="text-center text-gray-400 mt-10">
           <p><%= t("channels.no_messages") %></p>
