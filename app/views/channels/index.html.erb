@@ -17,7 +17,9 @@
       </div>
     </div>
 
-   <div class="flex-1 overflow-y-auto p-6 space-y-6" id="messages">
+  <div class="flex-1 overflow-y-auto p-6 space-y-6"
+     id="messages"
+     data-controller="scroll">
       <% if @messages.any? %>
         <%= render @messages %>
       <% else %>
