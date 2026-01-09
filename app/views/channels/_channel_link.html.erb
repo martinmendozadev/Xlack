@@ -1,8 +1,9 @@
 <%
+  user = local_assigns[:user]
   is_active = local_assigns[:active]
 %>
 
-<%= link_to channel_path(channel), id: dom_id(channel), class: channel_classes(channel, @active_channel) do %>
+<%= link_to channel_path(channel), id: dom_id(channel), class: channel_classes(channel, @active_channel, user) do %>
 
   <%= channel_icon(channel) %>
 
@@ -13,10 +14,14 @@
   <% end %>
 
   <%
-     membership = channel.channel_users.find_by(user: current_user)
-     if membership&.has_unread_messages? && channel != @active_channel
+     if user
+       membership = channel.channel_users.find_by(user: user)
+       if membership&.has_unread_messages? && channel != @active_channel
   %>
     <span class="ml-auto w-2 h-2 rounded-full bg-blue-500"></span>
-  <% end %>
+  <%
+       end
+     end
+  %>
 
 <% end %>

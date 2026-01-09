@@ -23,7 +23,8 @@ class Channel < ApplicationRecord
     broadcast_append_to "channels_list",
                         target: "public_channels_list",
                         partial: "channels/channel_link",
-                        locals: { channel: self, active: false }
+                        locals: { channel: self, active: false },
+                        user: nil
   end
 
   def self.create_dm(user_a, user_b)
